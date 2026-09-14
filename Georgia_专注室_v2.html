@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#F7F0E4">
+<title>Georgia 的专注室｜北大 MFA 备考</title>
+<style>
+:root{
+  --bg:#F7F0E4;--paper:#FFFDF8;--paper2:#FBF7EF;--ink:#3F3A34;--muted:#887D70;
+  --wood:#D7C0A5;--blue:#94A8B8;--blue-soft:#E9EEF1;--cream:#F3D58F;
+  --cream-soft:#FCF3D7;--coral:#D7967B;--green:#8CA084;--violet:#A798B5;
+  --line:rgba(91,76,57,.14);--shadow:0 18px 45px rgba(91,76,57,.09);--radius:23px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:
+    radial-gradient(circle at 12% 8%,rgba(255,255,255,.78),transparent 28%),
+    radial-gradient(circle at 86% 12%,rgba(243,213,143,.16),transparent 30%),
+    linear-gradient(180deg,#FAF5ED 0%,#F3EBDD 100%);
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.11;
+  background-image:radial-gradient(rgba(70,55,40,.22) .5px,transparent .5px),radial-gradient(rgba(255,255,255,.8) .7px,transparent .7px);
+  background-size:9px 9px,13px 13px;background-position:0 0,4px 5px;mix-blend-mode:multiply;
+}
+.wrap{width:min(1160px,92vw);margin:auto;padding:28px 0 48px}
+.topbar{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}
+.brand-kicker{color:#AF9574;font-size:12px;letter-spacing:.17em;text-transform:uppercase;margin-bottom:8px}
+h1{margin:0;font-family:Georgia,"Times New Roman","Noto Serif SC",serif;font-size:clamp(34px,5vw,50px);font-weight:600;letter-spacing:-.03em;line-height:1.03}
+.subtitle{margin:10px 0 0;color:var(--muted);font-size:14px}
+.quote{max-width:370px;padding:13px 16px;border:1px solid var(--line);border-radius:18px;background:rgba(255,253,248,.64);box-shadow:0 8px 24px rgba(91,76,57,.06);font:14px/1.7 Georgia,"Times New Roman","Noto Serif SC",serif}
+.quote b{font-weight:600;color:var(--coral)}
+.grid{display:grid;grid-template-columns:1.12fr .88fr;gap:18px}
+.card{background:rgba(255,253,248,.88);border:1px solid rgba(91,76,57,.1);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+.timer-card{padding:25px}.side{display:grid;gap:18px;align-content:start}
+.section{padding:19px}.section h2{font-size:16px;margin:0 0 5px;font-weight:650}.desc{font-size:12px;color:var(--muted);line-height:1.65;margin:0 0 14px}
+.session-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.mode-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:var(--cream-soft);color:#6D5C38;font-size:12px;font-weight:600}
+.mode-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--coral)}
+.micro{font-size:12px;color:var(--muted);text-align:right}
+.timer-stage{display:grid;place-items:center;padding:8px 0}
+.timer-ring{width:min(430px,72vw);aspect-ratio:1;position:relative;display:grid;place-items:center}
+.timer-ring svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+.ring-track{fill:none;stroke:var(--blue-soft);stroke-width:12}
+.ring-progress{fill:none;stroke:var(--coral);stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset .25s ease,stroke .3s ease}
+.ring-progress.break{stroke:var(--green)}.ring-progress.positive{stroke:var(--coral)}
+.timer-center{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.time{font-size:clamp(47px,8vw,78px);font-weight:500;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+.time-label{color:var(--muted);font-size:13px;margin-top:6px}
+.soft-note{color:#72695F;font-size:12px;margin-top:8px}.soft-note b{color:var(--coral);font-weight:600}
+.breath{width:9px;height:9px;border-radius:50%;background:var(--cream);margin:15px auto 1px;box-shadow:0 0 0 6px rgba(243,213,143,.15)}
+.controls{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:6px}
+button,select,input{font:inherit}
+button{border:0;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+button:hover{transform:translateY(-1px)}button:active{transform:translateY(0)}
+.btn{padding:11px 15px;border-radius:14px;background:var(--paper2);color:var(--ink);border:1px solid var(--line);box-shadow:0 5px 14px rgba(91,76,57,.05)}
+.btn.primary{background:var(--ink);color:#fffdf8;border-color:transparent;min-width:92px}
+.btn.accent{background:var(--cream);color:#5C4B2F}.btn.small{padding:8px 11px;border-radius:11px;font-size:12px}.btn.danger{color:#8A594B}.btn.ghost{background:transparent;box-shadow:none}
+.modes{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}
+.mode-btn{padding:9px 12px;border-radius:12px;background:transparent;border:1px solid var(--line);color:var(--muted)}
+.mode-btn.active{background:var(--blue-soft);border-color:rgba(148,168,184,.35);color:#536775;font-weight:600}
+.target-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
+.target-row label{font-size:12px;color:var(--muted)}
+select,input[type="text"],input[type="number"]{width:100%;background:#FFFCF7;border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--ink);outline:none}
+select:focus,input:focus{border-color:rgba(148,168,184,.72);box-shadow:0 0 0 4px rgba(148,168,184,.1)}
+.target-row select{width:150px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.task-main{display:flex;gap:8px}.task-main input{flex:1}
+.current-task{margin-top:10px;min-height:47px;padding:11px 13px;border-radius:15px;background:var(--blue-soft);display:flex;align-items:center;gap:10px;font-size:13px;line-height:1.5}
+.current-task.empty{background:#F6F1E9;color:#9A9083}.pin{width:9px;height:9px;border-radius:50%;background:var(--coral);flex:none}
+.picker-label{font-size:11px;color:var(--muted);margin:0 0 7px}
+.category-picker{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px}
+.category-btn{background:#FBF7EF;border:1px solid transparent;color:#655E55;padding:10px 11px;border-radius:12px;text-align:left;font-size:12px}
+.category-btn.active{background:#F3EEE5;border-color:rgba(215,192,165,.55);box-shadow:0 0 0 3px rgba(215,192,165,.08)}
+.category-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:middle;background:var(--wood)}
+.category-btn[data-cat="politics"] .category-dot{background:var(--coral)}
+.category-btn[data-cat="english"] .category-dot{background:var(--blue)}
+.category-btn[data-cat="art-basic"] .category-dot{background:var(--green)}
+.category-btn[data-cat="art-creative"] .category-dot{background:var(--violet)}
+.category-btn[data-cat="other"] .category-dot{background:var(--wood-deep,#B69B7B)}
+.todo-list{display:grid;gap:8px;margin-top:10px}.todo-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:13px;background:#FCF8F1;border:1px solid rgba(91,76,57,.08)}
+.todo-item input{width:auto}.todo-item .task-text{flex:1;font-size:13px;line-height:1.45}.todo-item.done .task-text{text-decoration:line-through;color:#9C9389}.remove{background:transparent;color:#B6AA9A;padding:5px 7px}
+.progress-strip{margin-top:14px}.progress-top{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px}.bar{height:7px;background:#EFE7DA;border-radius:999px;overflow:hidden}.bar>span{display:block;height:100%;width:0;background:var(--coral);border-radius:inherit;transition:width .25s ease}
+.sound-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sound-option{padding:10px 11px;border-radius:13px;background:#FBF7EF;border:1px solid transparent;cursor:pointer;font-size:12px;color:#655D53;text-align:left}.sound-option.active{background:var(--blue-soft);border-color:rgba(148,168,184,.35);color:#536775}
+.sound-option .wave{display:inline-block;width:18px;font-size:14px}
+.sound-controls{margin-top:10px;display:grid;gap:8px}.tiny-toggle{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}.range-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}input[type=range]{flex:1;accent-color:var(--coral)}
+.switch{position:relative;width:40px;height:23px;display:inline-block}.switch input{opacity:0;width:0;height:0}.slider{position:absolute;inset:0;background:#DED6CA;border-radius:999px;cursor:pointer;transition:.2s}.slider:before{content:"";position:absolute;width:17px;height:17px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.12)}.switch input:checked+.slider{background:var(--green)}.switch input:checked+.slider:before{transform:translateX(17px)}
+.panel-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.stats-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}.stats-head select{width:160px}
+.stats-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{padding:12px;border-radius:14px;background:#FBF7EF;border:1px solid rgba(91,76,57,.08)}.stat .num{font-size:23px;font-variant-numeric:tabular-nums}.stat .lbl{font-size:11px;color:var(--muted);margin-top:3px}
+.chart-wrap{margin-top:13px}.chart{height:160px;display:grid;grid-template-columns:repeat(7,1fr);gap:7px;align-items:end;padding:8px 2px 0;border-bottom:1px solid var(--line)}.bar-col{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;min-width:0}.bar-value{font-size:9px;color:#968C7F;white-space:nowrap}.day-bar{width:min(22px,75%);height:0;min-height:3px;border-radius:7px 7px 2px 2px;background:var(--coral);transition:height .35s ease}.bar-label{font-size:10px;color:#93887B}
+.category-stats{display:grid;gap:8px;margin-top:12px}.cat-row{display:grid;grid-template-columns:105px 1fr 65px;gap:8px;align-items:center;font-size:11px}.cat-name{color:#655E55}.cat-track{height:7px;background:#EEE7DC;border-radius:999px;overflow:hidden}.cat-fill{height:100%;border-radius:999px;background:var(--blue)}.cat-time{text-align:right;color:#8A8175;font-variant-numeric:tabular-nums}
+.report-note{font-size:11px;color:#A09688;line-height:1.6;margin-top:11px}
+.activity-list{display:grid;gap:8px;margin-top:11px;max-height:240px;overflow:auto;padding-right:3px}.activity{display:grid;grid-template-columns:10px 1fr auto;gap:9px;align-items:center;padding:9px 10px;background:#FCF8F1;border-radius:12px}.activity-dot{width:8px;height:8px;border-radius:50%;background:var(--coral)}.activity-main{min-width:0}.activity-title{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.activity-meta{font-size:10px;color:#9D9386;margin-top:2px}.activity-time{font-size:11px;color:#72695E;font-variant-numeric:tabular-nums}
+.footer{margin-top:16px;padding:15px 4px 0;display:flex;justify-content:space-between;gap:12px;color:#9B9081;font-size:11px}.serif{font-family:Georgia,"Times New Roman","Noto Serif SC",serif}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:rgba(53,49,43,.95);color:#FFFDF8;padding:11px 15px;border-radius:14px;font-size:12px;transition:.25s;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.14)}.toast.show{opacity:1;transform:translate(-50%,0)}
+.overlay{position:fixed;inset:0;background:rgba(62,58,52,.2);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;z-index:20;padding:20px}.overlay.show{display:flex}.modal{width:min(450px,92vw);background:#FFFDF8;border:1px solid var(--line);border-radius:25px;padding:26px;box-shadow:0 28px 70px rgba(50,42,34,.2);text-align:center}.modal .mark{font-size:25px;margin-bottom:8px}.modal h3{margin:0;font:22px Georgia,"Times New Roman","Noto Serif SC",serif}.modal p{margin:10px 0 18px;color:var(--muted);font-size:13px;line-height:1.8}.modal .actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+@media(max-width:980px){.grid{grid-template-columns:1fr}.side{grid-template-columns:1fr 1fr}}
+@media(max-width:680px){
+  .wrap{width:94vw;padding-top:18px}.topbar{display:block}.quote{max-width:none;margin-top:14px}.side{grid-template-columns:1fr}.timer-card{padding:18px}.timer-ring{width:min(390px,84vw)}.controls .btn{flex:1;min-width:94px}.category-picker{grid-template-columns:1fr 1fr}.stats-kpis{grid-template-columns:1fr 1fr 1fr}.stats-head{display:block}.stats-head select{width:100%;margin-top:8px}.footer{display:block}.footer>div+div{margin-top:5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+  <div>
+    <div class="brand-kicker">A quiet desk for a big idea</div>
+    <h1>Georgia 的专注室</h1>
+    <p class="subtitle">北大 MFA 备考 · 安静地做今天这一小段</p>
+  </div>
+  <div class="quote"><b>今天不需要证明什么。</b><br>只要让自己坐下来，做一点真正重要的事。</div>
+</header>
+
+<main class="grid">
+<section class="card timer-card">
+  <div class="session-head">
+    <div class="mode-pill"><span class="dot"></span><span id="sessionModeText">准备专注</span></div>
+    <div class="micro" id="sessionHint">今天这一轮，只做这一件事。</div>
+  </div>
+
+  <div class="timer-stage">
+    <div class="timer-ring">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="ring-track" cx="100" cy="100" r="84"></circle>
+        <circle id="ringProgress" class="ring-progress" cx="100" cy="100" r="84"></circle>
+      </svg>
+      <div class="timer-center">
+        <div>
+          <div class="time" id="timeDisplay">00:00</div>
+          <div class="time-label" id="timeLabel">已专注</div>
+          <div class="soft-note">参考线只是参考，不是成绩单。<b id="softTarget">25 分钟</b></div>
+          <div class="breath"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn primary" id="startBtn">开始</button>
+    <button class="btn" id="pauseBtn">暂停</button>
+    <button class="btn" id="resetBtn">重置</button>
+    <button class="btn accent" id="finishBtn">结束并记录</button>
+  </div>
+
+  <div class="modes">
+    <button class="mode-btn active" data-mode="25">25 + 5</button>
+    <button class="mode-btn" data-mode="50">50 + 10</button>
+    <button class="mode-btn" data-mode="custom">自定义</button>
+    <button class="mode-btn" data-mode="positive">正向计时</button>
+  </div>
+
+  <div class="target-row">
+    <label for="targetSelect">正向计时参考线</label>
+    <select id="targetSelect">
+      <option value="25">25 分钟</option><option value="50">50 分钟</option><option value="90">90 分钟</option><option value="0">不设参考线</option>
+    </select>
+  </div>
+
+  <div style="margin-top:13px;padding-top:13px;border-top:1px solid var(--line)">
+    <div class="picker-label">这轮专注在做什么？</div>
+    <div class="category-picker" id="categoryPicker">
+      <button class="category-btn active" data-cat="politics"><span class="category-dot"></span>考研政治</button>
+      <button class="category-btn" data-cat="english"><span class="category-dot"></span>考研英语</button>
+      <button class="category-btn" data-cat="art-basic"><span class="category-dot"></span>艺术基础</button>
+      <button class="category-btn" data-cat="art-creative"><span class="category-dot"></span>艺术创意</button>
+      <button class="category-btn" data-cat="other"><span class="category-dot"></span>其他学习</button>
+    </div>
+  </div>
+</section>
+
+<div class="side">
+<section class="card section">
+  <h2>现在只做什么</h2>
+  <p class="desc">写下这一轮的唯一任务。它会一直待在这里，提醒你别急着开新坑。</p>
+  <div class="task-main"><input id="currentTaskInput" type="text" maxlength="100" placeholder="例如：看完传播学第三章并写 5 句话笔记"><button class="btn small accent" id="saveCurrentTask">确定</button></div>
+  <div class="current-task empty" id="currentTaskView"><span class="pin"></span><span>还没有写下这一轮要做的事。</span></div>
+</section>
+
+<section class="card section">
+  <h2>今日三件事</h2>
+  <p class="desc">最多三项。完成一项，就给自己一个小小的 ✓。</p>
+  <div class="task-main"><input id="todoInput" type="text" maxlength="70" placeholder="添加今日任务"><button class="btn small" id="addTodo">添加</button></div>
+  <div class="todo-list" id="todoList"></div>
+  <div class="progress-strip"><div class="progress-top"><span>今日进度</span><span id="todoProgressText">0 / 0</span></div><div class="bar"><span id="todoProgressBar"></span></div></div>
+</section>
+
+<section class="card section">
+  <h2>声音 · 多一点音乐感</h2>
+  <p class="desc">全部用 Web Audio API 本地合成。环境音不会自动播放，第一次听见声音需要你亲手打开。</p>
+  <div class="sound-grid">
+    <button class="sound-option active" data-sound="silent"><span class="wave">○</span>静音</button>
+    <button class="sound-option" data-sound="pad"><span class="wave">〰</span>暖色垫音</button>
+    <button class="sound-option" data-sound="rain"><span class="wave">⋰</span>轻柔雨声</button>
+    <button class="sound-option" data-sound="jazz"><span class="wave">♩</span>爵士氛围</button>
+    <button class="sound-option" data-sound="lofi"><span class="wave">⌁</span>Lo-fi 节拍</button>
+    <button class="sound-option" data-sound="study"><span class="wave">♫</span>夜读钢琴</button>
+  </div>
+  <div class="sound-controls">
+    <div class="tiny-toggle"><span>环境音</span><label class="switch"><input type="checkbox" id="ambientToggle"><span class="slider"></span></label></div>
+    <div class="tiny-toggle"><span>结束提示音</span><label class="switch"><input type="checkbox" id="cueToggle" checked><span class="slider"></span></label></div>
+    <div class="range-row"><span>音量</span><input type="range" id="volumeRange" min="0" max="1" step=".01" value=".3"><span id="volumeValue">30%</span></div>
+  </div>
+</section>
+
+<section class="card section">
+  <div class="stats-head">
+    <div><h2 style="margin-bottom:4px">专注统计</h2><p class="desc" style="margin:0">让数据告诉你“我确实做过”，而不是拿来催你。</p></div>
+    <select id="statsRange">
+      <option value="week">本周</option>
+      <option value="month">本月</option>
+      <option value="year">本年</option>
+      <option value="all">全部</option>
+    </select>
+  </div>
+  <div class="stats-kpis">
+    <div class="stat"><div class="num" id="kpiTotal">00:00</div><div class="lbl">累计专注</div></div>
+    <div class="stat"><div class="num" id="kpiSessions">0</div><div class="lbl">完成轮数</div></div>
+    <div class="stat"><div class="num" id="kpiAvg">00:00</div><div class="lbl">平均每轮</div></div>
+  </div>
+  <div class="chart-wrap"><div class="chart" id="statsChart"></div></div>
+  <div class="category-stats" id="categoryStats"></div>
+  <div class="report-note" id="reportNote"></div>
+</section>
+
+<section class="card section">
+  <h2>最近专注记录</h2>
+  <p class="desc">完整历史不会因为换天而消失。你做过的每一段，都留在这里。</p>
+  <div class="activity-list" id="activityList"></div>
+</section>
+
+<section class="card section">
+  <h2>计时设置</h2>
+  <p class="desc">自定义时长会被保存。长期统计也会保留，不会因为进入新的一天而清零。</p>
+  <div class="field-row">
+    <div><div class="picker-label">专注时长（分钟）</div><input id="customFocus" type="number" min="1" max="240" value="25"></div>
+    <div><div class="picker-label">休息时长（分钟）</div><input id="customBreak" type="number" min="1" max="120" value="5"></div>
+  </div>
+  <div class="panel-tools">
+    <button class="btn small" id="exportBtn">导出专注记录</button>
+    <button class="btn small danger" id="clearAllBtn">清空全部历史</button>
+  </div>
+  <div class="report-note">导出会生成一个 CSV 文件，可用 Excel / Numbers 打开。清空历史不可恢复，请谨慎操作。</div>
+</section>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="serif">Georgia，你正在成为你最想要成为的人。</div>
+  <div>长期数据保存在本机浏览器 · 建议偶尔导出一份备份</div>
+</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="overlay" id="finishOverlay">
+  <div class="modal">
+    <div class="mark">✦</div>
+    <h3 id="finishTitle">这一轮完成了。</h3>
+    <p id="finishText"></p>
+    <div class="actions"><button class="btn" id="overlayClose">先休息一下</button><button class="btn accent" id="overlayNext">开始下一轮</button></div>
+  </div>
+</div>
+
+<script>
+const reminders = [
+  "先完成这一小段，再谈远方。",
+  "卡住不是失败，是思考正在发生。",
+  "你可以慢，但不能散。",
+  "Georgia，回来。现在只看这一段。",
+  "把手机放远一点，把目标放近一点。",
+  "先做完，再做好；先进入，再深入。",
+  "创作需要感性，备考需要纪律，你两样都在练。",
+  "把理论读进去，把表达练出来。",
+  "不用一口气上岸，先游好这一米。",
+  "如果觉得难，说明你在走上坡路。",
+  "不跟别人的节奏比，你有自己的拍子。",
+  "先处理最怕的那一项，它会变小。",
+  "你的审美、思考和坚持，都在备考里成型。",
+  "读一段，写一段，练一段，都是靠近。",
+  "不要等状态完美，先让笔动起来。",
+  "专注不是紧绷，是有方向地放松。",
+  "Georgia，慢一点没关系，别停。",
+  "你正在走的路，值得你安静地走完。",
+  "不用向任何人解释你的节奏。",
+  "你只需要对今天的自己负责。"
+];
+
+const CATS={
+  politics:"考研政治",english:"考研英语","art-basic":"艺术基础","art-creative":"艺术创意",other:"其他学习"
+};
+const KEY="georgia_focus_room_v3";
+const R=84, C=2*Math.PI*R;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+
+let state=loadState();
+let audio={ctx:null,master:null,sourceNodes:[],timer:null,noise:null};
+let timer={running:false,paused:false,positive:false,session:"focus",startedAt:null,accumulated:0,targetSec:1500,interval:null};
+let selectedCategory=state.selectedCategory||"politics";
+
+function today(){const d=new Date();return d.toISOString().slice(0,10)}
+function defaultState(){return{
+  schema:3,currentTask:"",todos:[],records:[],customFocus:25,customBreak:5,target:25,volume:.3,ambient:false,sound:"silent",cue:true,selectedCategory:"politics"
+}}
+function migrate(old){
+  const b=defaultState();
+  const s={...b,...old};
+  // v2 records had {seconds,task,at}; preserve and add category.
+  s.records=(old.records||[]).map(r=>({...r,category:r.category||"other",date:r.date||new Date(r.at||Date.now()).toISOString()}));
+  return s;
+}
+function loadState(){
+  try{const raw=JSON.parse(localStorage.getItem(KEY)||"null");return raw?migrate(raw):defaultState()}catch{return defaultState()}
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function fmt(sec){
+  sec=Math.max(0,Math.round(sec||0));
+  const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;
+  return h?`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
+function esc(t){const d=document.createElement("div");d.textContent=t||"";return d.innerHTML}
+function toast(t){const x=$("#toast");x.textContent=t;x.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>x.classList.remove("show"),2200)}
+function getElapsed(){return timer.accumulated+(timer.running&&timer.startedAt?(Date.now()-timer.startedAt)/1000:0)}
+function getRemaining(){return Math.max(0,timer.targetSec-getElapsed())}
+function focusMin(){return Math.max(1,Math.min(240,Number($("#customFocus").value)||25))}
+function breakMin(){return Math.max(1,Math.min(120,Number($("#customBreak").value)||5))}
+
+function renderTasks(){
+  const list=$("#todoList"); list.innerHTML="";
+  state.todos.forEach((t,i)=>{
+    const row=document.createElement("div");row.className="todo-item"+(t.done?" done":"");
+    row.innerHTML=`<input type="checkbox" ${t.done?"checked":""}><span class="task-text">${esc(t.text)}</span><button class="remove">×</button>`;
+    row.querySelector("input").onchange=e=>{state.todos[i].done=e.target.checked;save();renderTasks()};
+    row.querySelector(".remove").onclick=()=>{state.todos.splice(i,1);save();renderTasks()};
+    list.appendChild(row);
+  });
+  const done=state.todos.filter(x=>x.done).length;
+  $("#todoProgressText").textContent=`${done} / ${state.todos.length}`;
+  $("#todoProgressBar").style.width=state.todos.length?`${done/state.todos.length*100}%`:"0%";
+}
+function renderTask(){
+  const v=$("#currentTaskView");
+  if(state.currentTask){v.classList.remove("empty");v.innerHTML=`<span class="pin"></span><span>${esc(state.currentTask)}</span>`;$("#currentTaskInput").value=state.currentTask}
+  else{v.classList.add("empty");v.innerHTML=`<span class="pin"></span><span>还没有写下这一轮要做的事。</span>`}
+}
+function renderActivity(){
+  const box=$("#activityList");box.innerHTML="";
+  const rs=[...state.records].sort((a,b)=>b.at-a.at).slice(0,60);
+  if(!rs.length){box.innerHTML='<div class="report-note">还没有记录。你的第一个小圆点，等你来放下。</div>';return}
+  rs.forEach(r=>{
+    const row=document.createElement("div");row.className="activity";
+    const d=new Date(r.at), date=d.toLocaleString("zh-CN",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+    row.innerHTML=`<span class="activity-dot"></span><div class="activity-main"><div class="activity-title">${esc(CATS[r.category]||"其他学习")}${r.task?" · "+esc(r.task):""}</div><div class="activity-meta">${date}</div></div><div class="activity-time">${fmt(r.seconds)}</div>`;
+    box.appendChild(row)
+  })
+}
+function renderCategoryPicker(){ $$(".category-btn").forEach(b=>b.classList.toggle("active",b.dataset.cat===selectedCategory))}
+function renderSettings(){
+  $("#customFocus").value=state.customFocus;$("#customBreak").value=state.customBreak;
+  $("#targetSelect").value=String(state.target);$("#volumeRange").value=state.volume;$("#volumeValue").textContent=Math.round(state.volume*100)+"%";
+  $("#ambientToggle").checked=!!state.ambient;$("#cueToggle").checked=state.cue!==false;
+  $$(".sound-option").forEach(b=>b.classList.toggle("active",b.dataset.sound===state.sound));
+}
+
+function rangeDates(kind){
+  const now=new Date(); now.setHours(23,59,59,999);
+  if(kind==="week"){
+    const d=new Date();const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);d.setHours(0,0,0,0);
+    const end=new Date(d);end.setDate(d.getDate()+7);return {start:d,end}
+  }
+  if(kind==="month"){
+    return {start:new Date(now.getFullYear(),now.getMonth(),1),end:new Date(now.getFullYear(),now.getMonth()+1,1)}
+  }
+  if(kind==="year"){return {start:new Date(now.getFullYear(),0,1),end:new Date(now.getFullYear()+1,0,1)}}
+  return {start:new Date(0),end:new Date(now.getTime()+1)}
+}
+function inRange(r,rg){return r.at>=rg.start.getTime()&&r.at<rg.end.getTime()}
+function aggregate(range){
+  const rs=state.records.filter(r=>inRange(r,range));const total=rs.reduce((a,r)=>a+r.seconds,0);
+  const byCat={politics:0,english:0,"art-basic":0,"art-creative":0,other:0};rs.forEach(r=>byCat[r.category]=(byCat[r.category]||0)+r.seconds);
+  return {rs,total,byCat}
+}
+function fmtShort(sec){
+  sec=Math.round(sec||0); if(sec<60)return sec+"s"; const m=Math.round(sec/60); return m<60?m+"m":`${Math.floor(m/60)}h ${m%60}m`
+}
+function dayKey(d){return d.toISOString().slice(0,10)}
+function renderStats(){
+  const kind=$("#statsRange").value,rg=rangeDates(kind),a=aggregate(rg);
+  $("#kpiTotal").textContent=fmt(a.total);$("#kpiSessions").textContent=a.rs.length;$("#kpiAvg").textContent=fmt(a.rs.length?a.total/a.rs.length:0);
+
+  const chart=$("#statsChart");chart.innerHTML="";
+  let labels=[],vals=[];
+  if(kind==="week"){
+    for(let i=0;i<7;i++){const d=new Date(rg.start);d.setDate(rg.start.getDate()+i);labels.push(["一","二","三","四","五","六","日"][i]);vals.push(state.records.filter(r=>dayKey(new Date(r.at))===dayKey(d)).reduce((x,r)=>x+r.seconds,0))}
+  }else if(kind==="month"){
+    const days=new Date(rg.end.getFullYear(),rg.end.getMonth(),0).getDate();
+    for(let i=1;i<=days;i++){labels.push(String(i));const d=new Date(rg.start.getFullYear(),rg.start.getMonth(),i);vals.push(state.records.filter(r=>dayKey(new Date(r.at))===dayKey(d)).reduce((x,r)=>x+r.seconds,0))}
+  }else if(kind==="year"){
+    for(let i=0;i<12;i++){const d=new Date(rg.start.getFullYear(),i,1);labels.push((i+1)+"月");vals.push(state.records.filter(r=>new Date(r.at).getFullYear()===d.getFullYear()&&new Date(r.at).getMonth()===i).reduce((x,r)=>x+r.seconds,0))}
+  }else{
+    const latest=state.records.length?new Date(Math.max(...state.records.map(r=>r.at))):new Date();
+    for(let i=6;i>=0;i--){const d=new Date(latest);d.setDate(latest.getDate()-i);labels.push(`${d.getMonth()+1}/${d.getDate()}`);vals.push(state.records.filter(r=>dayKey(new Date(r.at))===dayKey(d)).reduce((x,r)=>x+r.seconds,0))}
+  }
+  const max=Math.max(1,...vals);
+  labels.forEach((lab,i)=>{
+    const col=document.createElement("div");col.className="bar-col";
+    const val=document.createElement("div");val.className="bar-value";val.textContent=vals[i]?fmtShort(vals[i]):"";
+    const bar=document.createElement("div");bar.className="day-bar";bar.style.height=`${Math.max(2,vals[i]/max*120)}px`;
+    const lb=document.createElement("div");lb.className="bar-label";lb.textContent=lab;
+    col.append(val,bar,lb);chart.appendChild(col);
+  });
+
+  const catBox=$("#categoryStats");catBox.innerHTML="";
+  const maxCat=Math.max(1,...Object.values(a.byCat));
+  Object.entries(a.byCat).forEach(([key,sec])=>{
+    const row=document.createElement("div");row.className="cat-row";
+    row.innerHTML=`<div class="cat-name">${CATS[key]}</div><div class="cat-track"><div class="cat-fill" style="width:${sec/maxCat*100}%"></div></div><div class="cat-time">${fmtShort(sec)}</div>`;
+    catBox.appendChild(row);
+  });
+  const longest=a.rs.reduce((m,r)=>Math.max(m,r.seconds),0);
+  $("#reportNote").textContent = a.rs.length
+    ? `${kind==="week"?"这周":kind==="month"?"这个月":kind==="year"?"今年":"截至目前"}，你完成了 ${a.rs.length} 轮专注。最多投入的板块是「${CATS[Object.entries(a.byCat).sort((x,y)=>y[1]-x[1])[0][0]]}」。最长单轮 ${fmt(longest)}。`
+    : "这一段时间还没有专注记录。没有关系，统计从你下一次开始。";
+}
+
+function setMode(mode){
+  timer.running=false;timer.paused=false;timer.startedAt=null;timer.accumulated=0;clearInterval(timer.interval);timer.interval=null;stopAmbient();
+  timer.positive=mode==="positive";timer.session="focus";
+  let f=focusMin(),b=breakMin();
+  if(mode==="25"){f=25;b=5} else if(mode==="50"){f=50;b=10}
+  timer.targetSec=f*60;
+  $$(".mode-btn").forEach(x=>x.classList.toggle("active",x.dataset.mode===mode));
+  $("#softTarget").textContent=state.target?`${state.target} 分钟参考线`:"不设参考线";
+  updateUI();
+}
+function updateRing(progress){const el=$("#ringProgress");el.style.strokeDasharray=C;el.style.strokeDashoffset=C*(1-Math.max(0,Math.min(1,progress)));el.classList.toggle("break",timer.session==="break");el.classList.toggle("positive",timer.positive)}
+function updateUI(){
+  const e=getElapsed(),r=getRemaining();
+  if(timer.positive){
+    $("#timeDisplay").textContent=fmt(e);$("#timeLabel").textContent="已专注";
+    updateRing(state.target?e/(state.target*60):(e%3600)/3600);
+    $("#sessionHint").textContent=state.target&&e>=state.target*60?"已经超过参考线了。你可以继续，也可以停下来休息。":"今天这一轮，只做这一件事。";
+  }else{
+    $("#timeDisplay").textContent=fmt(r);$("#timeLabel").textContent=timer.session==="focus"?"专注剩余":"休息剩余";
+    updateRing(timer.targetSec?1-r/timer.targetSec:0);
+    $("#sessionHint").textContent=timer.session==="focus"?"把注意力放回手边这一件事。":"肩膀放下来，先让眼睛离开屏幕。";
+  }
+  $("#sessionModeText").textContent=timer.session==="focus"?(timer.running?"专注中":"准备专注"):(timer.running?"休息中":"准备休息");
+  $("#startBtn").textContent=timer.running&&!timer.paused?"进行中":(timer.paused?"继续":"开始");
+  $("#startBtn").disabled=timer.running&&!timer.paused;$("#pauseBtn").disabled=!timer.running||timer.paused;
+}
+function ensureAudio(){
+  if(!audio.ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;audio.ctx=new AC();audio.master=audio.ctx.createGain();audio.master.gain.value=state.volume;audio.master.connect(audio.ctx.destination)}
+  if(audio.ctx.state==="suspended")audio.ctx.resume();audio.master.gain.value=state.volume;return true
+}
+function beep(freq,d=.35,type="sine",g=.09,at=0){
+  if(!state.cue||!ensureAudio())return;const c=audio.ctx,o=c.createOscillator(),gn=c.createGain(),t=c.currentTime+at;o.type=type;o.frequency.value=freq;gn.gain.setValueAtTime(.0001,t);gn.gain.exponentialRampToValueAtTime(Math.max(.001,g),t+.025);gn.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(gn);gn.connect(audio.master);o.start(t);o.stop(t+d+.03)
+}
+function startCue(){beep(523,.34,"sine",.09,0);beep(659,.4,"sine",.07,.10);beep(784,.52,"sine",.05,.21)}
+function endCue(){beep(784,.36,"sine",.075,0);beep(659,.36,"sine",.065,.18);beep(523,.48,"sine",.055,.36)}
+function returnCue(){beep(523,.26,"triangle",.065,0);beep(659,.28,"triangle",.075,.14);beep(880,.36,"triangle",.06,.29)}
+function stopAmbient(){audio.sourceNodes.forEach(n=>{try{n.stop()}catch{}});audio.sourceNodes=[];if(audio.timer)clearInterval(audio.timer);audio.timer=null;if(audio.noise){try{audio.noise.disconnect()}catch{}audio.noise=null}}
+
+function pad(){
+  if(!ensureAudio())return;const c=audio.ctx,g=c.createGain();g.gain.value=.016;g.connect(audio.master);
+  [146.83,174.61,220,261.63].forEach((f,i)=>{const o=c.createOscillator(),l=c.createOscillator(),lg=c.createGain();o.type="sine";o.frequency.value=f;l.frequency.value=.05+i*.009;lg.gain.value=f*.012;l.connect(lg);lg.connect(o.frequency);o.connect(g);o.start();l.start();audio.sourceNodes.push(o,l)})
+}
+function rain(){
+  if(!ensureAudio())return;const c=audio.ctx,b=c.createBuffer(1,c.sampleRate*2,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*.32;
+  const s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=b;s.loop=true;f.type="lowpass";f.frequency.value=2800;g.gain.value=.024;s.connect(f);f.connect(g);g.connect(audio.master);s.start();audio.noise=s;audio.sourceNodes.push(s)
+}
+function toneNote(freq,d=.42){
+  if(!ensureAudio())return;const c=audio.ctx,o=c.createOscillator(),g=c.createGain(),t=c.currentTime;o.type="triangle";o.frequency.value=freq;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.04,t+.025);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(audio.master);o.start(t);o.stop(t+d+.02)
+}
+function jazz(){if(!ensureAudio())return;const seq=[261.63,329.63,392,493.88,392,329.63,293.66,349.23];let i=0;const p=()=>{toneNote(seq[i%seq.length]);toneNote(seq[(i+2)%seq.length]*1.5,.34);i++};p();audio.timer=setInterval(p,820)}
+function lofi(){
+  if(!ensureAudio())return;
+  const beat=[261.63,329.63,392,329.63,293.66,349.23,440,349.23];let i=0;
+  const p=()=>{toneNote(beat[i%beat.length],.26); if(i%4===0)beep(130.81,.10,"sine",.045,0); i++};p();audio.timer=setInterval(p,560)
+}
+function study(){
+  if(!ensureAudio())return;
+  const seq=[261.63,293.66,329.63,392,349.23,329.63,293.66,261.63];let i=0;
+  const p=()=>{toneNote(seq[i%seq.length],.58);i++};p();audio.timer=setInterval(p,1200)
+}
+function startAmbient(){stopAmbient();if(!state.ambient||state.sound==="silent")return;if(state.sound==="pad")pad();if(state.sound==="rain")rain();if(state.sound==="jazz")jazz();if(state.sound==="lofi")lofi();if(state.sound==="study")study()}
+
+function addRecord(sec){
+  sec=Math.max(1,Math.round(sec||0));state.records.push({seconds:sec,task:state.currentTask||"",category:selectedCategory||"other",at:Date.now(),date:new Date().toISOString()});save();renderStats();renderActivity()
+}
+function finish(manual=true){
+  const elapsed=getElapsed();
+  if(timer.session==="focus"&&elapsed>0)addRecord(elapsed);
+  clearInterval(timer.interval);timer.interval=null;stopAmbient();
+  const endedFocus=timer.session==="focus";
+  if(!manual && !timer.positive)endedFocus?endCue():returnCue();
+  $("#finishTitle").textContent=manual?"这一轮完成了。":endedFocus?"时间到了，先去休息。":"休息结束，慢慢回来。";
+  $("#finishText").textContent=manual?`你把自己的时间认真用了一小段。${elapsed?`这一轮记下了 ${fmt(elapsed)} · ${CATS[selectedCategory]}。`:""}`:endedFocus?"计时只是提醒，不是评价。去喝口水、走两步，再决定下一轮。":"把呼吸收回来，坐好。下一轮不用急，开始就够了。";
+  $("#finishOverlay").classList.add("show");
+  timer.running=false;timer.paused=false;timer.startedAt=null;timer.accumulated=0;
+  if(!manual && !timer.positive){
+    if(endedFocus){timer.session="break";timer.targetSec=breakMin()*60}else{timer.session="focus";timer.targetSec=focusMin()*60}
+  }else{timer.session="focus";timer.targetSec=focusMin()*60}
+  updateUI()
+}
+function start(){
+  if(timer.running&&!timer.paused)return;
+  if(!timer.running){timer.running=true;timer.paused=false;timer.startedAt=Date.now();ensureAudio();startCue();startAmbient();timer.interval=setInterval(tick,500);updateUI()}
+  else{timer.paused=false;timer.startedAt=Date.now();startAmbient();timer.interval=setInterval(tick,500);updateUI()}
+}
+function pause(){if(!timer.running||timer.paused)return;timer.accumulated=getElapsed();timer.running=true;timer.paused=true;timer.startedAt=null;clearInterval(timer.interval);timer.interval=null;stopAmbient();updateUI()}
+function reset(){clearInterval(timer.interval);timer.interval=null;stopAmbient();timer.running=false;timer.paused=false;timer.startedAt=null;timer.accumulated=0;timer.session="focus";timer.targetSec=timer.positive?focusMin()*60:timer.targetSec;updateUI()}
+function tick(){
+  if(!timer.running||timer.paused)return;const e=getElapsed();
+  if(!timer.positive&&e>=timer.targetSec){finish(false);return}
+  updateUI();
+  if(Math.floor(e/90)!==Math.floor((e-.5)/90)){toast(reminders[Math.floor(Math.random()*reminders.length)])}
+}
+
+function exportCSV(){
+  const rows=[["date","time","category","task","seconds","duration"]];
+  [...state.records].sort((a,b)=>a.at-b.at).forEach(r=>{const d=new Date(r.at);rows.push([d.toISOString().slice(0,10),d.toLocaleTimeString("zh-CN",{hour12:false}),CATS[r.category]||"其他学习",(r.task||"").replace(/"/g,'""'),r.seconds,fmt(r.seconds)])});
+  const csv="\ufeff"+rows.map(row=>row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`Georgia_专注记录_${today()}.csv`;a.click();URL.revokeObjectURL(a.href)
+}
+function bind(){
+  $("#saveCurrentTask").onclick=()=>{state.currentTask=$("#currentTaskInput").value.trim();save();renderTask();toast(state.currentTask?"这一轮只做这件事。":"这一轮暂时不设任务。")};
+  $("#currentTaskInput").onkeydown=e=>{if(e.key==="Enter")$("#saveCurrentTask").click()};
+  $("#addTodo").onclick=()=>{const t=$("#todoInput").value.trim();if(!t)return;if(state.todos.length>=3){toast("今日任务最多三项。够用就好。");return}state.todos.push({text:t,done:false});$("#todoInput").value="";save();renderTasks()};
+  $("#todoInput").onkeydown=e=>{if(e.key==="Enter")$("#addTodo").click()};
+
+  $$(".category-btn").forEach(b=>b.onclick=()=>{selectedCategory=b.dataset.cat;state.selectedCategory=selectedCategory;save();renderCategoryPicker()});
+  $$(".mode-btn").forEach(b=>b.onclick=()=>{const m=b.dataset.mode;if(m==="25"){state.target=25;save();$("#targetSelect").value="25"}if(m==="50"){state.target=50;save();$("#targetSelect").value="50"}setMode(m)});
+
+  $("#targetSelect").onchange=e=>{state.target=Number(e.target.value);save();$("#softTarget").textContent=state.target?`${state.target} 分钟参考线`:"不设参考线";updateUI()};
+  $("#customFocus").onchange=e=>{state.customFocus=focusMin();e.target.value=state.customFocus;save();if($$(".mode-btn").find(b=>b.dataset.mode==="custom").classList.contains("active"))setMode("custom")};
+  $("#customBreak").onchange=e=>{state.customBreak=breakMin();e.target.value=state.customBreak;save()};
+  $("#statsRange").onchange=renderStats;
+  $("#startBtn").onclick=start;$("#pauseBtn").onclick=pause;$("#resetBtn").onclick=reset;$("#finishBtn").onclick=()=>finish(true);
+
+  $("#ambientToggle").onchange=e=>{state.ambient=e.target.checked;save();if(state.ambient){ensureAudio();startAmbient();toast("环境音已开启。")}else{stopAmbient();toast("环境音已关闭。")}};
+  $("#cueToggle").onchange=e=>{state.cue=e.target.checked;save()};
+  $("#volumeRange").oninput=e=>{state.volume=Number(e.target.value);$("#volumeValue").textContent=Math.round(state.volume*100)+"%";save();if(audio.master)audio.master.gain.value=state.volume};
+  $$(".sound-option").forEach(b=>b.onclick=()=>{state.sound=b.dataset.sound;save();$$(".sound-option").forEach(x=>x.classList.toggle("active",x===b));if(state.ambient){ensureAudio();startAmbient()}});
+
+  $("#overlayClose").onclick=()=>$("#finishOverlay").classList.remove("show");
+  $("#overlayNext").onclick=()=>{$("#finishOverlay").classList.remove("show");reset();if(timer.positive)start()};
+  $("#exportBtn").onclick=exportCSV;
+  $("#clearAllBtn").onclick=()=>{if(!state.records.length){toast("现在没有历史记录。");return}if(confirm("确定清空全部专注历史吗？此操作不可恢复。")){state.records=[];save();renderStats();renderActivity();toast("全部历史已清空。")}};
+  window.addEventListener("beforeunload",()=>{if(timer.running&&!timer.paused){timer.accumulated=getElapsed();timer.running=false;state._unfinished={accumulated:timer.accumulated,targetSec:timer.targetSec,positive:timer.positive,session:timer.session,category:selectedCategory,startedAt:Date.now()};save()}});
+}
+function recover(){
+  if(state._unfinished){
+    const u=state._unfinished;
+    // Don't silently count an unfinished session as completed. Offer to resume.
+    delete state._unfinished;save();
+    timer.accumulated=u.accumulated||0;timer.targetSec=u.targetSec||focusMin()*60;timer.positive=!!u.positive;timer.session=u.session||"focus";selectedCategory=u.category||selectedCategory;
+    renderCategoryPicker();updateUI();
+    setTimeout(()=>toast("欢迎回来。上一次未结束的计时已保留在计时器里。"),250)
+  }
+}
+function init(){
+  renderTask();renderTasks();renderCategoryPicker();renderSettings();renderStats();renderActivity();
+  setMode("25");recover();updateUI();
+}
+bind();init();
+</script>
+</body>
+</html>
